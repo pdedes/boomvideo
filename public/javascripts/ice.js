@@ -1,12 +1,35 @@
 var comm = new Icecomm('UQnIHb5NSBcbmpYjxOOUWgK66Z9OVohKadkBZy5n8ALDLcBGKi');
 
 $(document).ready(function () {
-  var roomName = location.pathname.replace('/', '');
-  console.log('fired DOC READY');
-  comm.connect(roomName, {audio: false});
+  console.log('Doc Load has Finished.');
   console.log('Location: ', location);
-  console.log('roomName is equal to...', roomName);
+  
+  $( '.launch' ).on('click', function() {
+    console.log('launch clicked');
+    var roomName = location.pathname.replace('/', '');
+    var that = $(this);
+
+    $.ajax({
+        type: 'GET',
+        url: '/counter/',
+        success: function (response) {
+          console.log('counter retrieved: ', response);
+          roomName = response;
+          comm.connect(roomName, {audio: false});
+
+          console.log('roomName is equal to...', roomName);
+          that.remove();
+        }
+    });
+
+  });
+
+  $( '.share' ).on('click', function() {
+    console.log('share clicked');
+  });
+
 });
+
 
 comm.on('local', function(peer) {
   localVideo.src = peer.stream;
@@ -21,5 +44,3 @@ comm.on('connected', function(peer) {
 comm.on('disconnect', function(peer) {
   document.getElementById(peer.ID).remove();
 });
-
-// module.exports = comm;
