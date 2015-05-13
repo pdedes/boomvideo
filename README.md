@@ -2,7 +2,7 @@
 
 This is a hackathon project @ Fullstack Academy.
 
-Everything about meetings sucks. Fumbling for passcodes, multi-tasking participants, materials haven't been shared early enough, expansion of scope. It's endless.
+Everything about meetings stink. Fumbling for passcodes, multi-tasking participants, the materials haven't been shared early enough, expansion of scope, no one took notes. It's no surprise that we don't like them.
 
 This project is an experiment with web-video streaming over webRTC built on IceComm.io. The idea is that face-to-face meetings should be launched quickly, and with absolutely minimum overhead.
 
