@@ -13,6 +13,13 @@ router.get('/counter', function(req, res, next) {
 	res.json(counter);
 });
 
+router.get('/boomroom/:id', function(req, res, next) {
+	var room = req.params.id;
+	console.log('Room ID: ', room);
+
+	res.render('guest', { title: 'BoomRoom', room: room });
+});
+
 /* GET home page. */
 router.get('/*', function(req, res, next) {
   // console.log(req);
