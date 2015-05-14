@@ -27,7 +27,6 @@ router.get('/boomroom/:id', function(req, res, next) {
 	res.render('guest', { title: 'BoomRoom', room: room });
 });
 
-
 /* GET home page. */
 router.get('/*', function(req, res, next) {
   // console.log(req);
