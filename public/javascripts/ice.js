@@ -39,8 +39,16 @@ $(document).ready(function () {
   // Create a shareable link with the room's number.
   $( '.share' ).on('click', function() {
     console.log('share clicked');
-    console.log('site name', location);
-    console.log('room path', location.origin + '/boomroom/' + roomNumberToShare);
+    var that = $(this);
+    
+    $.ajax({
+        type: 'POST',
+        url: '/sms/',
+        success: function (response) {
+          console.log('sms share hit: ', response);
+          that.remove();
+        }
+    });
 
   });
 
