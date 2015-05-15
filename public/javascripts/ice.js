@@ -1,11 +1,6 @@
 var comm = new Icecomm('UQnIHb5NSBcbmpYjxOOUWgK66Z9OVohKadkBZy5n8ALDLcBGKi', {debug: true});
 
-var iceConnect = function(roomName) {
-    comm.connect(roomName, {audio: false}, function(err) {
-        // console.log("CB Args:", arguments);
-        // console.log("Room Connect CB ", err);
-    });
-}
+
 
 var roomSize = function () {
   var size = comm.getRoomSize();
@@ -93,6 +88,65 @@ $(document).ready(function () {
   console.log("comm object: ", comm);
 
 });
+
+
+//---  FUNCTIONS ---//
+
+var iceConnect = function(roomName) {
+    comm.connect(roomName, {audio: false}, function(err) {
+        // console.log("CB Args:", arguments);
+        // console.log("Room Connect CB ", err);
+    });
+}
+
+//Instantiate a comm object from Icecomm
+function getIcecommInstance(){
+  if(!comm){
+    comm = new Icecomm('UQnIHb5NSBcbmpYjxOOUWgK66Z9OVohKadkBZy5n8ALDLcBGKi', {debug: true});
+  }
+  return comm;
+};
+
+//Add a callback to the connection.
+function setCallingInstance(callback){
+    getIcecommInstance().on('data', callback);
+};
+
+//NEW ICECOMM INSTANCE
+function iceWrapper (roomName) {
+
+    var comm = getIcecommInstance();
+
+    comm.connect(roomName, {audio: false});
+
+    comm.on('local', function(peer) {
+      localVideo.src = peer.stream;
+      // document.getElementById('video-box').appendChild(peer.getVideo());
+      console.log("Local Video: ", localVideo);
+    });
+
+    comm.on('connected', function(peer) {
+      console.log(arguments);
+      console.log("Peer Obj: ", peer);
+      document.body.appendChild(peer.getVideo());
+    });
+
+    comm.on('disconnect', function(peer) {
+      document.getElementById(peer.ID).remove();
+      // var header = document.createElement("p");
+      // document.body.appendChild(header).html("A user has disconnected");
+    });
+
+    // comm.on('global_connect', function(peer) {
+    //   console.log('Global connect', peer.data);
+    // });
+
+    // comm.on('error', function(err) {
+    //   console.log("IC Error: ", err);
+    // });
+
+    // console.log("comm object: ", comm);
+}
 
 
 
