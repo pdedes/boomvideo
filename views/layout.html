@@ -2,13 +2,30 @@
 <html>
   <head>
     <title>BoomVideo</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="/bootstrap/dist/css/bootstrap.css">
     <link rel="stylesheet" href="/stylesheets/style.css">
   </head>
   <body>
+  	<nav class="navbar navbar-default navbar-fixed-top navbar-inverse">
+  	  <div class="container-fluid">
+  	    <div class="navbar-header">
+  	      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+  	              <span class="sr-only">Toggle navigation</span>
+  	              <span class="icon-bar"></span>
+  	              <span class="icon-bar"></span>
+  	              <span class="icon-bar"></span>
+  	        </button>
+  	         <a class="navbar-brand" href="#">BoomVideo</a>
+  	    </div>
+  	  </div>
+  	</nav>
     {% block content %}{% endblock %}
   </body>
-	<script type="text/javascript" src="https://cdn.icecomm.io/icecomm.js"></script>
 	<script type="text/javascript" src="/jquery/dist/jquery.js"></script>
-	<script type="text/javascript" src="/javascripts/ice.js"></script>
 	<script type="text/javascript" src="/bootstrap/dist/js/bootstrap.js"></script>
+	<script type="text/javascript" src="https://cdn.icecomm.io/icecomm.js"></script>
+	<script type="text/javascript" src="/javascripts/ice.js"></script>
 </html>

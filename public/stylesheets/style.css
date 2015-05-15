@@ -1,6 +1,7 @@
 body {
   padding: 50px;
   font: 14px "Lato", Helvetica, Arial, sans-serif;
+  background-color: #6E6E6E;
 }
 
 a {
@@ -12,9 +13,9 @@ video {
     width: 200px;
 }
 
-vid-box {
+/*vid-box {
 	width: 100%;
-}
+}*/
 
 #localVideo {
   position: absolute;
@@ -22,12 +23,25 @@ vid-box {
   bottom: 50px;
   width: 350px;
 }
- 
-/*video:nth-of-type(2) {
-  position: fixed; right: 0; bottom: 0;
+
+/*video[src^="blob"] {
+  position: fixed; 
+  right: 0; 
+  bottom: 0;
   min-width: 50%; min-height: 50%;
-  width: auto; 
-  height: auto; 
+  width: 200px; 
+  height: 200px; 
   z-index: -100;
   background-size: cover;
 }*/
+ 
+video:nth-of-type(2) {
+  position: fixed; 
+  right: 0; 
+  bottom: 0;
+  min-width: 50%; min-height: 50%;
+  width: 200px; 
+  height: 200px; 
+  z-index: -100;
+  background-size: cover;
+}

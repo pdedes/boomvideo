@@ -1,46 +1,58 @@
 var comm = new Icecomm('UQnIHb5NSBcbmpYjxOOUWgK66Z9OVohKadkBZy5n8ALDLcBGKi', {debug: true});
 
+var iceConnect = function(roomName) {
+    comm.connect(roomName, {audio: false}, function(err) {
+        // console.log("CB Args:", arguments);
+        // console.log("Room Connect CB ", err);
+    });
+}
+
+var roomSize = function () {
+  var size = comm.getRoomSize();
+  console.log("room size: ", size);
+}
+
 $(document).ready(function () {
-  console.log('Page Load Finished.');
-  console.log('Location: ', location);
   var roomNumberToShare;
   
   // if branch for guests visiting a shared link
   if(location.pathname.indexOf('/boomroom/') !== -1) {
       var guestRoomNumber = location.pathname.match(/\d+/)[0];
-      console.log("guest attempting to connect to room ", guestRoomNumber);
-      comm.connect(guestRoomNumber.toString(), {audio: false});
+      iceConnect(guestRoomNumber);
   }
 
   // logic used to create and launch a room
   $( '.launch' ).on('click', function() {
-    console.log('launch clicked');
     var roomName = location.pathname.replace('/', '');
-    console.log('room name after launch', roomName);
+
     var that = $(this);
+    var form = $(" #invite-form ");
 
     // Get a unique counter value from the backend to name the room
     $.ajax({
         type: 'GET',
         url: '/counter/',
         success: function (response) {
-          console.log('counter retrieved: ', response);
           roomName = response;
           roomNumberToShare = response;
-          comm.connect(roomName, {audio: false});
+          iceConnect(roomNumberToShare);
 
           console.log('roomName is equal to...', roomName);
           that.remove();
+          form.remove();
         }
     });
 
   });
 
   // Create a shareable link with the room's number.
-  $( '.share' ).on('click', function() {
+  $( '.send-invite' ).click(function() {
     console.log('share clicked');
+    // var phoneNum = $( '#inputPhone' );
+    // console.log("Entered Phone", phoneNum);
+
     var that = $(this);
-    
+
     $.ajax({
         type: 'POST',
         url: '/sms/',
@@ -54,19 +66,31 @@ $(document).ready(function () {
 
   comm.on('local', function(peer) {
     localVideo.src = peer.stream;
+    // document.getElementById('video-box').appendChild(peer.getVideo());
     console.log("Local Video: ", localVideo);
   });
 
   comm.on('connected', function(peer) {
+    console.log(arguments);
     console.log("Peer Obj: ", peer);
     document.body.appendChild(peer.getVideo());
   });
 
   comm.on('disconnect', function(peer) {
     document.getElementById(peer.ID).remove();
-    var header = document.createElement("p");
-    document.body.appendChild(header).html("A user has disconnected");
+    // var header = document.createElement("p");
+    // document.body.appendChild(header).html("A user has disconnected");
   });
+
+  comm.on('global_connect', function(peer) {
+    console.log('Global connect', peer.data);
+  });
+
+  comm.on('error', function(err) {
+    console.log("IC Error: ", err);
+  });
+
+  console.log("comm object: ", comm);
 
 });
 
