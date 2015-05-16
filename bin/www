@@ -4,7 +4,7 @@
  * Module dependencies.
  */
 
-var app = require('../app');
+// var app = require('../app');
 var debug = require('debug')('boomvideo:server');
 var http = require('http');
 var socketio = require('socket.io');
@@ -13,17 +13,20 @@ var socketio = require('socket.io');
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || '3000');
-app.set('port', port);
 
 /**
  * Create HTTP server.
  */
 
-var server = http.createServer(app);
+var server = http.createServer();
 
-var io = socketio(server);
+var io = socketio();
 
+var app = require('../app')(io);
+app.set('env', 'development');
+
+var port = normalizePort(process.env.PORT || '3000');
+app.set('port', port);
 /**
  * Listen on provided port, on all network interfaces.
  */
@@ -39,6 +42,8 @@ io.on('connection', function (socket) {
   });
 });
 
+server.on('request', app);
+io.attach(server);
 /**
  * Normalize a port into a number, string, or false.
  */
