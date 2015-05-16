@@ -2,33 +2,28 @@
 
 {% block content %}
 	<div class="container">
-		<br>
-	    <div class="btn-group" role="group" aria-label="...">
-	      <button type="button" class="btn btn-success launch">Launch!</button>
-	      <button type="button" class="btn btn-success share">Share Link!</button>
-	    </div>
 	    <p>
-	    <div id="invite-form">
 	    <h4>Send Invites to your Guests</h4>
-		    {% for invite in invites %}
-		    <form class="form-inline">
-		      <div class="form-group">
-		        <label for="inputName">Name</label>
-		        <input type="text" class="form-control" id="inputName{{invite}}" placeholder="Jane Doe">
-		      </div>
-		      <div class="form-group">
-		        <label for="inputEmail">Email</label>
-		        <input type="email" class="form-control" id="inputEmail{{invite}}" placeholder="jane.doe@example.com">
-		      </div>
-		      <div class="form-group">
-		        <label for="inputPhone">Phone Number</label>
-		        <input type="phone" class="form-control" id="inputPhone{{invite}}" placeholder="+12014444444">
-		      </div>
+	    <div id="invite-form">
+		    <form id="share-details" class="form-inline">
+			    {% for invite in invites %}
+			      <div class="form-group">
+			        <label for="inputName">Name</label>
+			        <input type="text" class="form-control" name="invitee{{ invite }}[name]" id="inputName{{invite}}" value="Name...">
+			      </div>
+			      <div class="form-group">
+			        <label for="inputEmail">Email</label>
+			        <input type="email" class="form-control" name="invitee{{ invite }}[email]" id="inputEmail{{invite}}" value="peter@gmail.com">
+			      </div>
+			      <div class="form-group">
+			        <label for="inputPhone">Phone Number</label>
+			        <input type="phone" class="form-control" name="invitee{{ invite }}[phone]" id="inputPhone{{invite}}" value="+12014444444">
+			      </div>
+			    {% endfor %}
+			    <br><br>
+			    <button type="submit" class="btn btn-default">Send invitations</button>
 		    </form>
-		    {% endfor %}
-	    <br>
-	    <button type="submit" class="btn btn-default send-invite">Send invitations</button>
-	    </div>
+		</div>
 	    <div id="video-section">
 		    <video id="localVideoHost" autoplay></video>
 	    </div>

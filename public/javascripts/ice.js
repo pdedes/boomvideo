@@ -6,49 +6,33 @@ $( document ).ready(function () {
   // if branch for guests visiting a shared link
   if(location.pathname.indexOf('/boomroom/') !== -1) {
       var guestRoomNumber = location.pathname.match(/\d+/)[0];
+      socket.emit('join room', { room: guestRoomNumber });
       iceBootUp(guestRoomNumber);
   }
 
   // logic used to create and launch a room
-  $( '.launch' ).on('click', function() {
+  $( 'form' ).submit(function(event) {
+    event.preventDefault();
     var roomName = location.pathname.replace('/', '');
 
+    var form = $(this);
+    var formDetails = $(this).serializeObject();
     var that = $(this);
-    var form = $(" #invite-form ");
+
+    // var phoneNumbers = [];
+    // var emailAddresses = [];
+
+    var phoneNumbers = _.pluck(formDetails, 'phone');
+    var emailAddresses = _.pluck(formDetails, 'email');
+
+    console.log("form numbers: ", phoneNumbers);
+    console.log("form emails:  ", emailAddresses);
+
+    console.log('this is the form: ', form);
+    console.log('this is the serialized form: ', formDetails);
 
     // Get a unique counter value from the backend to name the room
-    $.ajax({
-        type: 'GET',
-        url: '/counter/',
-        success: function (response) {
-          roomName = response;
-          roomNumberToShare = response;
-          iceBootUp(roomNumberToShare);
-
-          console.log('roomName is equal to...', roomName);
-          that.remove();
-          form.remove();
-        }
-    });
-
-  });
-
-  // Create a shareable link with the room's number.
-  $( '.send-invite' ).click(function() {
-    console.log('share clicked');
-    // var phoneNum = $( '#inputPhone' );
-    // console.log("Entered Phone", phoneNum);
-
-    var that = $(this);
-
-    $.ajax({
-        type: 'POST',
-        url: '/sms/',
-        success: function (response) {
-          console.log('sms share hit: ', response);
-          that.remove();
-        }
-    });
+    ajaxCounterGet(that, form);
 
   });
 
@@ -96,7 +80,6 @@ function iceBootUp (roomName) {
 
     comm.connect(roomName, {audio: false});
 
-    
     comm.on('connected', function(peer) {
       $("#video-section").append(peer.getVideo());
     });
@@ -107,6 +90,7 @@ function iceBootUp (roomName) {
 
     comm.on('disconnect', function(peer) {
       document.getElementById(peer.ID).remove();
+      socket.emit('disconnect', { peerId: peer.ID });
     });
 
     // comm.on('local', function(peer) {
@@ -149,5 +133,39 @@ function iceBootUp (roomName) {
 };
 
 
+///////////////////////
+//---  AJAX CALLS ---//
+///////////////////////
+
+function ajaxCounterGet(that, form) {
+  $.ajax({
+      type: 'GET',
+      url: '/counter/',
+      success: function (response) {
+        roomName = response;
+        roomNumberToShare = response;
+        iceBootUp(roomNumberToShare);
+        // socket.emit('create room', { room: roomName });
+
+        console.log('roomName is equal to...', roomName);
+        // ajaxSmsCall(phonNumbers);
+
+        that.remove();
+        form.remove();
+      }
+  });
+}
+
+function ajaxSmsCall(data) {
+  $.ajax({
+      type: 'POST',
+      url: '/sms/',
+      data: data,
+      success: function (response) {
+        console.log('sms share hit: ', response);
+        that.remove();
+      }
+  });
+};
 
 

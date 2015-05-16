@@ -29,8 +29,7 @@ module.exports = function(io) {
 
 
 	/* GET home page. */
-	router.get('/*', function(req, res, next) {
-	  io.emit('route test', { number: 5 });	
+	router.get('/*', function(req, res, next) {	
 	  console.log('/* route');
 	  res.render('index', { title: 'BoomVideo', invites: [1, 2, 3, 4] });
 	});
