@@ -17,10 +17,32 @@ video {
 	width: 100%;
 }*/
 
-#localVideo {
+#localVideoHost {
   position: absolute;
   right: 50px;
   bottom: 50px;
+  width: 350px;
+  z-index: 1000;
+}
+#localVideo1 {
+  position: absolute;
+  left: 50px;
+  z-index: -100;
+  top: 50px;
+  width: 350px;
+}
+#localVideo2 {
+  position: absolute;
+  left: 50px;
+  z-index: -100;
+  bottom: 50px;
+  width: 350px;
+}
+#localVideo3 {
+  position: absolute;
+  right: 50px;
+  z-index: -100;
+  top: 50px;
   width: 350px;
 }
 
@@ -34,7 +56,7 @@ video {
   z-index: -100;
   background-size: cover;
 }*/
- 
+/* 
 video:nth-of-type(2) {
   position: fixed; 
   right: 0; 
@@ -44,4 +66,4 @@ video:nth-of-type(2) {
   height: 200px; 
   z-index: -100;
   background-size: cover;
-}
+}*/
