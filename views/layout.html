@@ -27,5 +27,18 @@
 	<script type="text/javascript" src="/jquery/dist/jquery.js"></script>
 	<script type="text/javascript" src="/bootstrap/dist/js/bootstrap.js"></script>
 	<script type="text/javascript" src="https://cdn.icecomm.io/icecomm.js"></script>
+	<script src="/socket.io/socket.io.js"></script>
+
+	<script>
+	  var socket = io(window.location.origin);
+	  socket.on('news', function (data) {
+	    console.log(data);
+	    socket.emit('my other event', { my: 'data' });
+	  });
+	  socket.on('route test', function(data) {
+	  	console.log(data);
+	  })
+	</script>
+
 	<script type="text/javascript" src="/javascripts/ice.js"></script>
 </html>

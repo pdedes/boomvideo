@@ -1,57 +1,58 @@
 var express = require('express');
 var router = express.Router();
-
 var accountSid = 'ACcecf026102b3249f9f1d6fc93b2f6cc3'; 
 var authToken = '75d8be630a484ac69be7da81b29aecc4'; 
  
 //require the Twilio module and create a REST client 
 var client = require('twilio')(accountSid, authToken); 
 
-var counter = 0;
+module.exports = function(io) {
 
-router.all('/', function(req, res, next) {
-	console.log("Room Counter", counter);
-	counter += 1;
-	next();
-});
+	var counter = 0;
 
-router.get('/counter', function(req, res, next) {
-	res.json(counter);
-});
-
-router.get('/boomroom/:id', function(req, res, next) {
-	var room = req.params.id;
-	console.log('Room ID: ', room);
-
-	res.render('guest', { title: 'BoomRoom', room: room });
-});
-
-
-/* GET home page. */
-router.get('/*', function(req, res, next) {
-  // console.log(req);
-  res.render('index', { title: 'BoomVideo', invites: [1, 2, 3, 4] });
-
-});
-
-router.post('/sms', function(req, res, next) {
-
-	console.log('sms route hit');
-
-	client.sms.messages.create({ 
-		to: "+12016931006", 
-		from: "+18622518420", 
-		body: "You've been invited to a BoomRoom @ http://localhost:3000/boomroom/1"
-	}, function(err, message) { 
-		if(!err) {
-			console.log("Twilio Sent: ", message.sid); 
-			console.log("message: ", message)
-			res.sendStatus(200).end();
-		} else {
-			console.log("Twilio error: ", err);
-		}
+	router.all('/', function(req, res, next) {
+		console.log("Room Counter", counter);
+		counter += 1;
+		next();
 	});
 
-});
+	router.get('/counter', function(req, res, next) {
+		res.json(counter);
+	});
 
-module.exports = router;
+	router.get('/boomroom/:id', function(req, res, next) {
+		var room = req.params.id;
+		console.log('Room ID: ', room);
+
+		res.render('guest', { title: 'BoomRoom', room: room });
+	});
+
+
+	/* GET home page. */
+	router.get('/*', function(req, res, next) {
+	  io.emit('route test', { number: 5 });	
+	  console.log('/* route');
+	  res.render('index', { title: 'BoomVideo', invites: [1, 2, 3, 4] });
+	});
+
+	router.post('/sms', function(req, res, next) {
+
+		console.log('sms route hit');
+
+		client.sms.messages.create({ 
+			to: "+12016931006", 
+			from: "+18622518420", 
+			body: "You've been invited to a BoomRoom @ http://localhost:3000/boomroom/1"
+		}, function(err, message) { 
+			if(!err) {
+				console.log("Twilio Sent: ", message.sid); 
+				console.log("message: ", message);
+				res.sendStatus(200).end();
+			} else {
+				console.log("Twilio error: ", err);
+			}
+		});
+	});
+
+	return router;
+};
