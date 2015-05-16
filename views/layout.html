@@ -35,6 +35,9 @@
 	    console.log(data);
 	    socket.emit('my other event', { my: 'data' });
 	  });
+	  socket.on('route test', function(data) {
+	  	console.log(data);
+	  })
 	</script>
 
 	<script type="text/javascript" src="/javascripts/ice.js"></script>
