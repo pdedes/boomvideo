@@ -38,6 +38,8 @@ module.exports = function(io) {
 
 		console.log('sms route hit');
 
+		console.log('phones: ', req.body);
+
 		client.sms.messages.create({ 
 			to: "+12016931006", 
 			from: "+18622518420", 
@@ -53,5 +55,23 @@ module.exports = function(io) {
 		});
 	});
 
+	router.post('/email', function(req, res, next) {
+		console.log('email: ', req.body);
+		res.status(200).end();
+	});
+
 	return router;
 };
+
+
+
+
+
+
+
+
+
+
+
+
+

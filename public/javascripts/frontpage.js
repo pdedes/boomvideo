@@ -32,17 +32,16 @@ $( document ).ready(function () {
     console.log('this is the serialized form: ', formDetails);
 
     // Get a unique counter value from the backend to name the room
-    ajaxCounterGet(that, form);
+    ajaxCounterGet(that, form, phoneNumbers, emailAddresses);
 
   });
 
 });
 
 
-//////////////////////
-//---  FUNCTIONS ---//
-//////////////////////
-
+//////////////////////////////
+//---  IceComm FUNCTIONS ---//
+//////////////////////////////
 
 
 var iceConnect = function(roomName) {
@@ -133,11 +132,7 @@ function iceBootUp (roomName) {
 };
 
 
-///////////////////////
-//---  AJAX CALLS ---//
-///////////////////////
-
-function ajaxCounterGet(that, form) {
+function ajaxCounterGet(that, form, phoneNumbers, emailAddresses) {
   $.ajax({
       type: 'GET',
       url: '/counter/',
@@ -147,8 +142,11 @@ function ajaxCounterGet(that, form) {
         iceBootUp(roomNumberToShare);
         // socket.emit('create room', { room: roomName });
 
+        console.log("GET phoneNumbers", phoneNumbers);
+        console.log("GET emailAddresses", emailAddresses);
         console.log('roomName is equal to...', roomName);
-        // ajaxSmsCall(phonNumbers);
+        ajaxSmsPost(phoneNumbers);
+        ajaxEmailPost(emailAddresses);
 
         that.remove();
         form.remove();
@@ -156,16 +154,38 @@ function ajaxCounterGet(that, form) {
   });
 }
 
-function ajaxSmsCall(data) {
+function ajaxSmsPost(phoneNumbers) {
   $.ajax({
       type: 'POST',
       url: '/sms/',
-      data: data,
+      datatype: 'json',
+      data: phoneNumbers,
       success: function (response) {
         console.log('sms share hit: ', response);
-        that.remove();
       }
   });
 };
+
+function ajaxEmailPost(emailAddresses) {
+  $.ajax({
+      type: 'POST',
+      url: '/email/',
+      datatype: 'json',
+      data: emailAddresses,
+      success: function (response) {
+        console.log('email share hit: ', response);
+      }
+  });
+};
+
+
+
+
+
+
+
+
+
+
 
 
