@@ -44,26 +44,46 @@ module.exports = function(io) {
 
 		var phonesNumbers = req.body.phones;
 		var room = req.body.room
-		console.log('phones & room: ', phonesNumbers, room);
+		var body = "You've been invited to a BoomRoom @ http://localhost:3000/boomroom/" + room;
 
-		var smsPromise = client.sms.messages.create({ 
-			to: "+12016931006", 
-			from: "+18622518420", 
-			body: "You've been invited to a BoomRoom @ http://localhost:3000/boomroom/1"
-		});
+		var smsPromises = [];
 
-		smsPromise.then(function(message) { 
-			// if(!err) {
-				console.log("Twilio Sent: ", message.sid); 
-				console.log("message: ", message);
-				res.sendStatus(200).end();
-			// } else {
+		// phonesNumbers.forEach(function(number, index) {
+		// 	smsPromises[index] = client.sms.messages.create({ 
+		// 		to: number,
+		// 		from: "+18622518420", 
+		// 		body: body
+		// 	});
+		// });
+
+		// console.log("Here are the Promises: ", smsPromises[0]);
+
+		// q.all(smsPromises)
+		// 	.then(function(results) {
+		// 		// console.log("smsPromises Results: ", results);
+		// 		results.forEach(function(result) {
+		// 			console.log("Twilio Sent: ", result.sid); 
+		// 		});
+		// 		res.sendStatus(200).end();
+		// 	}).then(null, function(err) {
+		// 		console.log("Twilio error: ", err);
+		// 	});
+
+		// For Testing Purposes
+		res.sendStatus(200).end();
+
+		// smsPromise.then(function(message) { 
+		// 	// if(!err) {
+		// 		console.log("Twilio Sent: ", message.sid); 
+		// 		console.log("message: ", message);
+		// 		res.sendStatus(200).end();
+		// 	// } else {
 				
-			// }
-		}).catch(function(err) {
-			console.log("Twilio error: ", err);
-			res.sendStatus(500).end();
-		});
+		// 	// }
+		// }).catch(function(err) {
+		// 	console.log("Twilio error: ", err);
+		// 	res.sendStatus(500).end();
+		// });
 
 	});
 
