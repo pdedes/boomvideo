@@ -36,29 +36,42 @@ module.exports = function(io) {
 	  res.render('index', { title: 'BoomVideo', invites: [1, 2, 3, 4] });
 	});
 
+	/* POST to TWILIO API */
 	router.post('/sms', function(req, res, next) {
 
 		console.log('sms route hit');
 
-		console.log('phones: ', req.body);
+		var phonesNumbers = req.body.phones;
+		var room = req.body.room
+		console.log('phones & room: ', phonesNumbers, room);
 
-		client.sms.messages.create({ 
+		var smsPromise = client.sms.messages.create({ 
 			to: "+12016931006", 
 			from: "+18622518420", 
 			body: "You've been invited to a BoomRoom @ http://localhost:3000/boomroom/1"
-		}, function(err, message) { 
-			if(!err) {
+		});
+
+		smsPromise.then(function(message) { 
+			// if(!err) {
 				console.log("Twilio Sent: ", message.sid); 
 				console.log("message: ", message);
 				res.sendStatus(200).end();
-			} else {
-				console.log("Twilio error: ", err);
-			}
+			// } else {
+				
+			// }
+		}).catch(function(err) {
+			console.log("Twilio error: ", err);
+			res.sendStatus(500).end();
 		});
+		
 	});
 
+	/* POST to MANDRILL API */
 	router.post('/email', function(req, res, next) {
-		console.log('email: ', req.body);
+		
+		var emailAddresses = req.body.email;
+		var room = req.body.room;
+		console.log('email & room: ', emailAddresses, room);
 
 		var address = 'http://localhost:3000/boomroom/';
 		var roomNumber = '1';

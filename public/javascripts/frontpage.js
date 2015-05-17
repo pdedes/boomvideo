@@ -151,8 +151,18 @@ function ajaxCounterGet(that, form, phoneNumbers, emailAddresses) {
         console.log('roomName is equal to...', roomName);
 
         // Perform POST requests to Twilio and Mandrill APIs
-        ajaxSmsPost(phoneNumbers);
-        ajaxEmailPost(emailAddresses);
+        var phoneObj = {
+          phones: phoneNumbers,
+          room: roomName
+        };
+
+        var emailObj = {
+          email: emailAddresses,
+          room: roomName
+        }
+
+        ajaxSmsPost(phoneObj);
+        ajaxEmailPost(emailObj);
 
         that.remove();
         form.remove();
@@ -163,26 +173,26 @@ function ajaxCounterGet(that, form, phoneNumbers, emailAddresses) {
 // NOTICE: we must set contentType, dataType, and send as JSON string to properly retrive on the backend.
 // If you do not follow these steps the arrays will be filled with undefined entries
 
-function ajaxSmsPost(phoneNumbers) {
+function ajaxSmsPost(phoneObj) {
   $.ajax({
       type: 'POST',
       url: '/sms/',
       contentType: 'application/json; charset=utf-8',
       dataType: 'json',
-      data: JSON.stringify(phoneNumbers),
+      data: JSON.stringify(phoneObj),
       success: function (response) {
         console.log('sms share hit: ', response);
       }
   });
 };
 
-function ajaxEmailPost(emailAddresses) {
+function ajaxEmailPost(emailObj) {
   $.ajax({
       type: 'POST',
       url: '/email/',
       contentType: 'application/json; charset=utf-8',
       dataType: 'json',
-      data: JSON.stringify(emailAddresses),
+      data: JSON.stringify(emailObj),
       success: function (response) {
         console.log('email share hit: ', response);
       }
