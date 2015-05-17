@@ -1,5 +1,7 @@
 var express = require('express');
 var router = express.Router();
+var mandrill = require('mandrill-api/mandrill');
+var mandrill_client = new mandrill.Mandrill('G2nzjoyaFEgLbpJHi-Zslw');
 var accountSid = 'ACcecf026102b3249f9f1d6fc93b2f6cc3'; 
 var authToken = '75d8be630a484ac69be7da81b29aecc4'; 
  
@@ -57,7 +59,42 @@ module.exports = function(io) {
 
 	router.post('/email', function(req, res, next) {
 		console.log('email: ', req.body);
-		res.status(200).end();
+
+		var address = 'http://localhost:3000/boomroom/';
+		var roomNumber = '1';
+		var html = '<html><head><title></title></head><body><h3><span style="font-family:arial,helvetica,sans-serif;">BoomVideo Invite</span></h3><p><span style="font-family:arial,helvetica,sans-serif;">You&#39;ve been invited to a video chat, join here: <a href="' + address + roomNumber + '">' + address + roomNumber + '</a></span></p><p><span style="font-family:arial,helvetica,sans-serif;">Sweet!</span></p></body></html>';
+		var sender = 'dedes1821@gmail.com';
+		// receive emails
+		// build an email object for each message
+		// insert object into the mandrill call
+		// POST to mandrill API
+		// handle response from mandrill
+
+		// optional variables
+		// 
+		// var async = false;
+		// var ip_pool = "Main Pool";
+		// var send_at = "example send_at";
+
+		// email:*
+		var to = [{}];
+
+		var message = {
+		    "html": html,
+		    "subject": "BoomVideo!",
+		    "from_email": sender,
+		    "from_name": "BoomVideo",
+		    "to": to
+		}
+
+		// mandrill_client.messages.send({ "message": message }, function(result) {
+		//     console.log(result);
+		// }, function(e) {
+		//     // Mandrill returns the error as an object with name and message keys
+		//     console.log('A mandrill error occurred: ' + e.name + ' - ' + e.message);
+		// });
+
+		res.json(message);
 	});
 
 	return router;

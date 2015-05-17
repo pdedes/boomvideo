@@ -28,8 +28,7 @@ $( document ).ready(function () {
     console.log("form numbers: ", phoneNumbers);
     console.log("form emails:  ", emailAddresses);
 
-    console.log('this is the form: ', form);
-    console.log('this is the serialized form: ', formDetails);
+    // console.log('this is the serialized form: ', formDetails);
 
     // Get a unique counter value from the backend to name the room
     ajaxCounterGet(that, form, phoneNumbers, emailAddresses);
@@ -132,6 +131,11 @@ function iceBootUp (roomName) {
 };
 
 
+///////////////////////
+//---  AJAX CALLS ---//
+///////////////////////
+
+
 function ajaxCounterGet(that, form, phoneNumbers, emailAddresses) {
   $.ajax({
       type: 'GET',
@@ -145,6 +149,8 @@ function ajaxCounterGet(that, form, phoneNumbers, emailAddresses) {
         console.log("GET phoneNumbers", phoneNumbers);
         console.log("GET emailAddresses", emailAddresses);
         console.log('roomName is equal to...', roomName);
+
+        // Perform POST requests to Twilio and Mandrill APIs
         ajaxSmsPost(phoneNumbers);
         ajaxEmailPost(emailAddresses);
 
@@ -154,12 +160,16 @@ function ajaxCounterGet(that, form, phoneNumbers, emailAddresses) {
   });
 }
 
+// NOTICE: we must set contentType, dataType, and send as JSON string to properly retrive on the backend.
+// If you do not follow these steps the arrays will be filled with undefined entries
+
 function ajaxSmsPost(phoneNumbers) {
   $.ajax({
       type: 'POST',
       url: '/sms/',
-      datatype: 'json',
-      data: phoneNumbers,
+      contentType: 'application/json; charset=utf-8',
+      dataType: 'json',
+      data: JSON.stringify(phoneNumbers),
       success: function (response) {
         console.log('sms share hit: ', response);
       }
@@ -170,8 +180,9 @@ function ajaxEmailPost(emailAddresses) {
   $.ajax({
       type: 'POST',
       url: '/email/',
-      datatype: 'json',
-      data: emailAddresses,
+      contentType: 'application/json; charset=utf-8',
+      dataType: 'json',
+      data: JSON.stringify(emailAddresses),
       success: function (response) {
         console.log('email share hit: ', response);
       }
