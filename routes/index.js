@@ -37,7 +37,10 @@ module.exports = function(io) {
 	  res.render('index', { title: 'BoomVideo', invites: [1, 2, 3, 4] });
 	});
 
+	////////////////////////
 	/* POST to TWILIO API */
+	////////////////////////
+	
 	router.post('/sms', function(req, res, next) {
 
 		console.log('sms route hit');
@@ -88,7 +91,10 @@ module.exports = function(io) {
 
 	});
 
+	//////////////////////////
 	/* POST to MANDRILL API */
+	//////////////////////////
+
 	router.post('/email', function(req, res, next) {
 		
 		var emailAddresses = req.body.email;

@@ -146,11 +146,10 @@ function ajaxCounterGet(that, form, phoneNumbers, emailAddresses) {
         iceBootUp(roomNumberToShare);
         // socket.emit('create room', { room: roomName });
 
-        console.log("GET phoneNumbers", phoneNumbers);
-        console.log("GET emailAddresses", emailAddresses);
-        console.log('roomName is equal to...', roomName);
+        // console.log("GET phoneNumbers", phoneNumbers);
+        // console.log("GET emailAddresses", emailAddresses);
+        // console.log('roomName is equal to...', roomName);
 
-        console.log('location is ', location.href.toString());
         var urlPath = location.href.toString();
 
         // Perform POST requests to Twilio and Mandrill APIs
@@ -169,6 +168,7 @@ function ajaxCounterGet(that, form, phoneNumbers, emailAddresses) {
         ajaxSmsPost(phoneObj);
         ajaxEmailPost(emailObj);
 
+        // remove form elements from the page to begin the chat
         that.remove();
         form.remove();
       }
