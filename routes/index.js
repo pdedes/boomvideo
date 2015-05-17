@@ -4,6 +4,7 @@ var mandrill = require('mandrill-api/mandrill');
 var mandrill_client = new mandrill.Mandrill('G2nzjoyaFEgLbpJHi-Zslw');
 var accountSid = 'ACcecf026102b3249f9f1d6fc93b2f6cc3'; 
 var authToken = '75d8be630a484ac69be7da81b29aecc4'; 
+var q = require('q');
  
 //require the Twilio module and create a REST client 
 var client = require('twilio')(accountSid, authToken); 
@@ -63,7 +64,7 @@ module.exports = function(io) {
 			console.log("Twilio error: ", err);
 			res.sendStatus(500).end();
 		});
-		
+
 	});
 
 	/* POST to MANDRILL API */
