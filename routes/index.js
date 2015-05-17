@@ -42,9 +42,10 @@ module.exports = function(io) {
 
 		console.log('sms route hit');
 
+		var address = req.body.location.toString();
 		var phonesNumbers = req.body.phones;
 		var room = req.body.room
-		var body = "You've been invited to a BoomRoom @ http://localhost:3000/boomroom/" + room;
+		var body = "You've been invited to a BoomRoom @ " + address + "boomroom/"+ room;
 
 		var smsPromises = [];
 
@@ -91,27 +92,28 @@ module.exports = function(io) {
 	router.post('/email', function(req, res, next) {
 		
 		var emailAddresses = req.body.email;
-		var room = req.body.room;
-		console.log('email & room: ', emailAddresses, room);
 
-		var address = 'http://localhost:3000/boomroom/';
-		var roomNumber = '1';
-		var html = '<html><head><title></title></head><body><h3><span style="font-family:arial,helvetica,sans-serif;">BoomVideo Invite</span></h3><p><span style="font-family:arial,helvetica,sans-serif;">You&#39;ve been invited to a video chat, join here: <a href="' + address + roomNumber + '">' + address + roomNumber + '</a></span></p><p><span style="font-family:arial,helvetica,sans-serif;">Sweet!</span></p></body></html>';
+		var address = req.body.location.toString();
+		var roomNumber = req.body.room;
+		var html = '<html><head><title></title></head><body><h3><span style="font-family:arial,helvetica,sans-serif;">BoomVideo Invite</span></h3><p><span style="font-family:arial,helvetica,sans-serif;">You&#39;ve been invited to a video chat, join here: <a href="' + address + 'boomroom/' + roomNumber + '">' + address + 'boomroom/' + roomNumber + '</a></span></p><p><span style="font-family:arial,helvetica,sans-serif;">Sweet!</span></p></body></html>';
 		var sender = 'dedes1821@gmail.com';
-		// receive emails
-		// build an email object for each message
-		// insert object into the mandrill call
-		// POST to mandrill API
-		// handle response from mandrill
 
+		console.log("received location: ", address);
 		// optional variables
 		// 
 		// var async = false;
 		// var ip_pool = "Main Pool";
 		// var send_at = "example send_at";
 
-		// email:*
-		var to = [{}];
+		// Load e-mail recipients into the 'to' array of objects
+		var to = [];
+		emailAddresses.forEach(function(email, index) {
+			to[index] = {
+				email: email
+			};
+		});
+
+		console.log("recipients: ", to);
 
 		var message = {
 		    "html": html,
@@ -120,6 +122,8 @@ module.exports = function(io) {
 		    "from_name": "BoomVideo",
 		    "to": to
 		}
+
+		// console.log(message);
 
 		// mandrill_client.messages.send({ "message": message }, function(result) {
 		//     console.log(result);
