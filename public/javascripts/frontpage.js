@@ -150,15 +150,20 @@ function ajaxCounterGet(that, form, phoneNumbers, emailAddresses) {
         console.log("GET emailAddresses", emailAddresses);
         console.log('roomName is equal to...', roomName);
 
+        console.log('location is ', location.href.toString());
+        var urlPath = location.href.toString();
+
         // Perform POST requests to Twilio and Mandrill APIs
         var phoneObj = {
           phones: phoneNumbers,
-          room: roomName
+          room: roomName,
+          location: urlPath
         };
 
         var emailObj = {
           email: emailAddresses,
-          room: roomName
+          room: roomName,
+          location: urlPath
         }
 
         ajaxSmsPost(phoneObj);
