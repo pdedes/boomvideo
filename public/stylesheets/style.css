@@ -46,6 +46,14 @@ video {
   width: 350px;
 }
 
+#editor { 
+  position: absolute;
+  top: 50px;
+  right: 0;
+  bottom: 0;
+  left: 50%;
+}
+
 /*video[src^="blob"] {
   position: fixed; 
   right: 0; 
