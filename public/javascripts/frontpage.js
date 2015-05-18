@@ -8,13 +8,14 @@ $( document ).ready(function () {
       var guestRoomNumber = location.pathname.match(/\d+/)[0];
       socket.emit('join room', { room: guestRoomNumber });
       iceBootUp(guestRoomNumber);
+      $(' #editor ').attr('style', 'visibility: visible;');
   }
 
   // logic used to create and launch a room
   $( 'form' ).submit(function(event) {
     event.preventDefault();
     var roomName = location.pathname.replace('/', '');
-
+    
     var form = $(this);
     var formDetails = $(this).serializeObject();
     var that = $(this);
@@ -32,6 +33,8 @@ $( document ).ready(function () {
 
     // Get a unique counter value from the backend to name the room
     ajaxCounterGet(that, form, phoneNumbers, emailAddresses);
+
+    $(' #editor ').attr('style', 'visibility: visible;');
 
   });
 
@@ -148,7 +151,7 @@ function ajaxCounterGet(that, form, phoneNumbers, emailAddresses) {
 
         // console.log("GET phoneNumbers", phoneNumbers);
         // console.log("GET emailAddresses", emailAddresses);
-        // console.log('roomName is equal to...', roomName);
+        console.log('roomName is equal to...', roomName);
 
         var urlPath = location.href.toString();
 
