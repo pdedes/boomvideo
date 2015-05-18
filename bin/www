@@ -39,6 +39,9 @@ server.on('listening', onListening);
 io.attach(server);
 io.on('connection', function (socket) {
   socket.emit('news', { hello: 'world' });
+  socket.on('text update', function (data) {
+    console.log('editor updates on server received: ', data);
+  });
   socket.on('my other event', function (data) {
     console.log(data);
   });

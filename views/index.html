@@ -3,28 +3,35 @@
 {% block content %}
 	<div class="container">
 	    <p>
-	    <h4>Send Invites to your Guests</h4>
-	    <div id="invite-form">
-		    <form id="share-details" class="form-inline">
-			    {% for invite in invites %}
-			      <div class="form-group">
-			        <label for="inputName">Name</label>
-			        <input type="text" class="form-control" name="invitee{{ invite }}[name]" id="inputName{{invite}}" value="Name...">
-			      </div>
-			      <div class="form-group">
-			        <label for="inputEmail">Email</label>
-			        <input type="email" class="form-control" name="invitee{{ invite }}[email]" id="inputEmail{{invite}}" value="dedes1821@gmail.com">
-			      </div>
-			      <div class="form-group">
-			        <label for="inputPhone">Phone Number</label>
-			        <input type="phone" class="form-control" name="invitee{{ invite }}[phone]" id="inputPhone{{invite}}" value="+12016931006">
-			      </div>
-			    {% endfor %}
-			    <br><br>
-			    <button type="submit" class="btn btn-default">Send invitations</button>
-		    </form>
+	    <div id="invite-form" class="row">
+		    <div class="col-sm-10">
+			    <form id="share-details" class="form-inline">
+	    			<h4>Send Invites to your Guests</h4>
+				    {% for invite in invites %}
+				      <div class="form-group">
+				        <label for="inputName">Name</label>
+				        <input type="text" class="form-control" name="invitee{{ invite }}[name]" id="inputName{{invite}}" value="Name...">
+				      </div>
+				      <div class="form-group">
+				        <label for="inputEmail">Email</label>
+				        <input type="email" class="form-control" name="invitee{{ invite }}[email]" id="inputEmail{{invite}}" value="dedes1821@gmail.com">
+				      </div>
+				      <div class="form-group">
+				        <label for="inputPhone">Phone Number</label>
+				        <input type="phone" class="form-control" name="invitee{{ invite }}[phone]" id="inputPhone{{invite}}" value="+12016931006">
+				      </div>
+				    {% endfor %}
+				    <br><br>
+				    <button type="submit" class="btn btn-default">Send invitations</button>
+			    </form>
+		    </div>	
 		</div>
-	    <div id="video-section">
+
+		<div class="row video">
+			<div class="col-lg-6">
+	    		<div id="video-section">
+			</div>
+		</div>
 		    <video id="localVideoHost" autoplay></video>
 	    </div>
     </div>	

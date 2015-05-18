@@ -1,7 +1,7 @@
 body {
   padding: 50px;
   font: 14px "Lato", Helvetica, Arial, sans-serif;
-  background-color: #6E6E6E;
+  background-color: #7bdef5;
 }
 
 a {
@@ -9,8 +9,8 @@ a {
 }
 
 video {
-    height: 200px;
-    width: 200px;
+    height: 250px;
+    width: 250px;
 }
 
 /*vid-box {
@@ -52,6 +52,10 @@ video {
   right: 0;
   bottom: 0;
   left: 50%;
+}
+
+#invite-form {
+  right: 50%;
 }
 
 /*video[src^="blob"] {

@@ -28,11 +28,15 @@
 	<script type="text/javascript" src="/bootstrap/dist/js/bootstrap.js"></script>
 	<script type="text/javascript" src="/jquery-serialize-object/dist/jquery.serialize-object.min.js"></script>
 	<script type="text/javascript" src="/lodash/lodash.min.js"></script>
+	<script type="text/javascript" src="/diff-patch/diff_match_patch_uncompressed.js"></script>
 	<script src="/src-min-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
 	<script type="text/javascript" src="https://cdn.icecomm.io/icecomm.js"></script>
 	<script src="/socket.io/socket.io.js"></script>
 
-	<div id="editor" style="display: none;">function boom(dynamite) {
+	<div id="editor" style="display: none;">
+		// Work on code together with your guests
+
+	function boom(dynamite) {
 	    var x = "boom goes the dynamite";
 	    return x;
 	}</div>
@@ -55,6 +59,11 @@
 	    var editor = ace.edit("editor");
 	    editor.setTheme("ace/theme/monokai");
 	    editor.getSession().setMode("ace/mode/javascript");
+	    editor.getSession().setTabSize(4);
+	    editor.getSession().on('change', function(e) {
+	        // console.log("something changed in the editor");
+	        console.log("Latest version: ", editor.getValue());
+	    });
 	</script>
 
 	<script type="text/javascript" src="/javascripts/frontpage.js"></script>

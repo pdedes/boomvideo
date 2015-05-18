@@ -1,7 +1,7 @@
-//var comm = new Icecomm('UQnIHb5NSBcbmpYjxOOUWgK66Z9OVohKadkBZy5n8ALDLcBGKi', {debug: true});
 
 $( document ).ready(function () {
   var roomNumberToShare;
+  var dmp = new diff_match_patch();
   
   // if branch for guests visiting a shared link
   if(location.pathname.indexOf('/boomroom/') !== -1) {
@@ -20,16 +20,8 @@ $( document ).ready(function () {
     var formDetails = $(this).serializeObject();
     var that = $(this);
 
-    // var phoneNumbers = [];
-    // var emailAddresses = [];
-
     var phoneNumbers = _.pluck(formDetails, 'phone');
     var emailAddresses = _.pluck(formDetails, 'email');
-
-    console.log("form numbers: ", phoneNumbers);
-    console.log("form emails:  ", emailAddresses);
-
-    // console.log('this is the serialized form: ', formDetails);
 
     // Get a unique counter value from the backend to name the room
     ajaxCounterGet(that, form, phoneNumbers, emailAddresses);
@@ -38,7 +30,58 @@ $( document ).ready(function () {
 
   });
 
+  editor.getSession().on('change', function(e) {
+    if (e.type) {
+      console.log("editor change error: ", e.type);
+    } else {
+      // var oldText = "Hi my full name be Originally Pedro.";
+      // var newText = "Hi my real full name is Actually Peter.";
+
+      var updatedText = editor.getValue();
+
+      socket.emit('text update', {
+        updatedText: updatedText
+      });
+    }
+
+  });
+
+  socket.on('text update', function(data) {
+    var oldText = editor.getValue();
+    var newText = data.updatedText;
+
+    var updates = performDiffPatch(oldText, newText);
+    editor.setValue(updates);
+  });
+
 });
+
+$( window ).resize(function () {
+  editor.resize();
+});
+
+
+//////////////////////////////////////
+//---  Text Editor Collaboration ---//
+//////////////////////////////////////
+
+
+function performDiffPatch(text1, text2) {
+  var dmp = new diff_match_patch();
+
+  var diffsCreated = dmp.diff_main(text1, text2);           /*  —> creates diffs  */
+  var patchesMade = dmp.patch_make(text1, diffsCreated);    /*  —> patches        */
+  var patchesApplied = dmp.patch_apply(patchesMade, text1); /*  —> [Array]        */
+
+  console.log("Diffs:   ", diffsCreated);
+  console.log("Patches: ", patchesMade);
+  console.log("Applied: ", patchesApplied);
+
+  console.log("Text1:   ", text1);
+  console.log("Text2:   ", text2);
+
+  // editor.setValue(patchesApplied[0]);
+}
 
 
 //////////////////////////////
@@ -61,18 +104,18 @@ function getIcecommInstance(){
   var comm = new Icecomm('UQnIHb5NSBcbmpYjxOOUWgK66Z9OVohKadkBZy5n8ALDLcBGKi', {debug: true});
   // }
   return comm;
-};
+}
 
 //Add a callback to the connection.
 function setCallingInstance(callback){
     getIcecommInstance().on('data', callback);
-};
+}
 
 //How many peers are in the room?
 var roomSize = function () {
   var size = comm.getRoomSize();
   console.log("room size: ", size);
-}
+};
 
 //NEW ICECOMM INSTANCE
 function iceBootUp (roomName) {
@@ -91,7 +134,7 @@ function iceBootUp (roomName) {
 
     comm.on('disconnect', function(peer) {
       document.getElementById(peer.ID).remove();
-      socket.emit('disconnect', { peerId: peer.ID });
+      socket.emit('video disconnect', { peerId: peer.ID });
     });
 
     // comm.on('local', function(peer) {
@@ -131,7 +174,7 @@ function iceBootUp (roomName) {
     // });
 
     // console.log("comm object: ", comm);
-};
+}
 
 
 ///////////////////////
@@ -166,7 +209,7 @@ function ajaxCounterGet(that, form, phoneNumbers, emailAddresses) {
           email: emailAddresses,
           room: roomName,
           location: urlPath
-        }
+        };
 
         ajaxSmsPost(phoneObj);
         ajaxEmailPost(emailObj);
@@ -189,10 +232,10 @@ function ajaxSmsPost(phoneObj) {
       dataType: 'json',
       data: JSON.stringify(phoneObj),
       success: function (response) {
-        console.log('sms share hit: ', response);
+        console.log('sms invites sent');
       }
   });
-};
+}
 
 function ajaxEmailPost(emailObj) {
   $.ajax({
@@ -202,10 +245,10 @@ function ajaxEmailPost(emailObj) {
       dataType: 'json',
       data: JSON.stringify(emailObj),
       success: function (response) {
-        console.log('email share hit: ', response);
+        console.log('email invites hit');
       }
   });
-};
+}
 
 
 

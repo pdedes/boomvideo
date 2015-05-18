@@ -47,7 +47,7 @@ module.exports = function(io) {
 
 		var address = req.body.location.toString();
 		var phonesNumbers = req.body.phones;
-		var room = req.body.room
+		var room = req.body.room;
 		var body = "You've been invited to a BoomRoom @ " + address + "boomroom/"+ room;
 
 		var smsPromises = [];
@@ -104,13 +104,6 @@ module.exports = function(io) {
 		var html = '<html><head><title></title></head><body><h3><span style="font-family:arial,helvetica,sans-serif;">BoomVideo Invite</span></h3><p><span style="font-family:arial,helvetica,sans-serif;">You&#39;ve been invited to a video chat, join here: <a href="' + address + 'boomroom/' + roomNumber + '">' + address + 'boomroom/' + roomNumber + '</a></span></p><p><span style="font-family:arial,helvetica,sans-serif;">Sweet!</span></p></body></html>';
 		var sender = 'dedes1821@gmail.com';
 
-		console.log("received location: ", address);
-		// optional variables
-		// 
-		// var async = false;
-		// var ip_pool = "Main Pool";
-		// var send_at = "example send_at";
-
 		// Load e-mail recipients into the 'to' array of objects
 		var to = [];
 		emailAddresses.forEach(function(email, index) {
@@ -119,15 +112,13 @@ module.exports = function(io) {
 			};
 		});
 
-		console.log("recipients: ", to);
-
 		var message = {
 		    "html": html,
 		    "subject": "BoomVideo!",
 		    "from_email": sender,
 		    "from_name": "BoomVideo",
 		    "to": to
-		}
+		};
 
 		// console.log(message);
 
