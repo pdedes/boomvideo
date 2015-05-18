@@ -39,7 +39,7 @@ $( document ).ready(function () {
 
       var updatedText = editor.getValue();
 
-      socket.emit('text update', {
+      socket.emit('text backend', {
         updatedText: updatedText
       });
     }
@@ -47,11 +47,17 @@ $( document ).ready(function () {
   });
 
   socket.on('text update', function(data) {
+    console.log('broadcast received in: ', data);
     var oldText = editor.getValue();
     var newText = data.updatedText;
 
+    console.log("client old Text: ", oldText);
+    console.log("client new Text: ", newText);
+
     var updates = performDiffPatch(oldText, newText);
-    editor.setValue(updates);
+    console.log("client patched text: ", newText);
+
+    // editor.setValue(updates);
   });
 
 });
@@ -80,7 +86,7 @@ function performDiffPatch(text1, text2) {
   console.log("Text1:   ", text1);
   console.log("Text2:   ", text2);
 
-  // editor.setValue(patchesApplied[0]);
+  editor.setValue(patchesApplied[0]);
 }
 
 
