@@ -9,9 +9,6 @@ $( document ).ready(function () {
       socket.emit('join room', { room: guestRoomNumber });
       iceBootUp(guestRoomNumber);
       socket.on('welcome editor', function(data) {
-        console.log('welcome socket ping hit');
-        console.log('welcome editor data: ', data.currentText);
-
         if(data.editorPristine) {
           defaultText = '// Work on code together with your guests\n\nfunction boom (dynamite) {\n    var x = "boom goes the " + dynamite;\n    return x;\n}';
           editor.setValue(defaultText, 1);
@@ -87,29 +84,12 @@ function performDiffPatch(text1, text2) {
 //////////////////////////////
 
 
-var iceConnect = function(roomName) {
-    comm.connect(roomName, {audio: false}, function(err) {
-        // console.log("CB Args:", arguments);
-        // console.log("Room Connect CB ", err);
-    });
-};
 
 //Instantiate a comm object from Icecomm
 function getIcecommInstance(){
   var comm = new Icecomm('UQnIHb5NSBcbmpYjxOOUWgK66Z9OVohKadkBZy5n8ALDLcBGKi', {debug: true});
   return comm;
 }
-
-//Add a callback to the connection.
-function setCallingInstance(callback){
-    getIcecommInstance().on('data', callback);
-}
-
-//How many peers are in the room?
-var roomSize = function () {
-  var size = comm.getRoomSize();
-  console.log("room size: ", size);
-};
 
 //NEW ICECOMM INSTANCE
 function iceBootUp (roomName) {
@@ -140,7 +120,6 @@ function iceBootUp (roomName) {
     });
 
 }
-
 
 ///////////////////////
 //---  AJAX CALLS ---//

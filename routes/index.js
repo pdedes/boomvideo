@@ -33,7 +33,6 @@ module.exports = function(io) {
 
 	/* GET home page. */
 	router.get('/*', function(req, res, next) {	
-	  console.log('/* route');
 	  res.render('index', { title: 'BoomVideo', invites: [1, 2, 3] });
 	});
 
@@ -59,8 +58,6 @@ module.exports = function(io) {
 				body: body
 			});
 		});
-
-		console.log("Here are the Promises: ", smsPromises[0]);
 
 		q.all(smsPromises)
 			.then(function(results) {
@@ -119,8 +116,6 @@ module.exports = function(io) {
 		    "from_name": "BoomVideo",
 		    "to": to
 		};
-
-		// console.log(message);
 
 		mandrill_client.messages.send({ "message": message }, function(result) {
 		    console.log(result);
