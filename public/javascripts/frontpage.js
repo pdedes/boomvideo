@@ -115,7 +115,7 @@ var roomSize = function () {
 function iceBootUp (roomName) {
 
     var comm = getIcecommInstance();
-    var guests;
+    var whoAmI = null;
 
     comm.connect(roomName, {audio: false});
 
@@ -126,51 +126,19 @@ function iceBootUp (roomName) {
     });
 
     comm.on('local', function(peer) {
+      whoAmI = Number(comm.getRoomSize());
       $("#localVideoHost").replaceWith(peer.getVideo());
     });
 
     comm.on('disconnect', function(peer) {
+      // var videoPlaceholder = '<div id="guest-vid"' + whoAmI + '>' + whoAmI + '</div>';
+      // var peerIdHtml = '#' + peer.ID;
+
+      // $(peerIdHtml).replaceWith(videoPlaceholder);
       document.getElementById(peer.ID).remove();
       socket.emit('video disconnect', { peerId: peer.ID });
     });
 
-    // comm.on('local', function(peer) {
-    //   // var node = document.createElement("VIDEO");               // Create a <video> node
-    //   // console.log("Peer Video: ", peer.getVideo());
-
-    //   // // var textnode = document.createVideoNode("Water");         // Create a text node
-    //   // node.appendChild(peer.getVideo()); 
-    //   // document.getElementById("video-section").appendChild(node);
-
-    //   $("#video-section").append(peer.stream);
-    //   console.log("local video added!");
-    //   // document.getElementById('video-box').appendChild(peer.getVideo());
-    //   // console.log("Local Video: ", localVideo);
-    // });
-
-    // comm.on('connected', function(peer) {
-    //   // console.log(arguments);
-    //   console.log("Peer Obj: ", peer);
-    //   // document.getElementById("localVideoHost").appendChild(peer.getVideo());
-    //   $("#video-section").append(peer.stream);
-    //   console.log("connected video added!");
-    // });
-
-    // comm.on('disconnect', function(peer) {
-    //   document.getElementById(peer.ID).remove();
-    //   // var header = document.createElement("p");
-    //   // document.body.appendChild(header).html("A user has disconnected");
-    // });
-
-    // // comm.on('global_connect', function(peer) {
-    //   console.log('Global connect', peer.data);
-    // });
-
-    // comm.on('error', function(err) {
-    //   console.log("IC Error: ", err);
-    // });
-
-    // console.log("comm object: ", comm);
 }
 
 

@@ -27,7 +27,7 @@ module.exports = function(io) {
 		var room = req.params.id;
 		console.log('Room ID: ', room);
 
-		res.render('guest', { title: 'BoomRoom', room: room });
+		res.render('guest', { title: 'BoomRoom', room: room, invites: [1, 2, 3] });
 	});
 
 

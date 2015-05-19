@@ -1,10 +1,24 @@
 {% extends "layout.html" %}
 
 {% block content %}
-	<h3><small>Welcome to {{title}} # {{room}}, you filthy civilian</small></h3>
+	<div class="container-fluid">
+		<h3><small>Welcome to {{title}} # {{room}}, you filthy civilian</small></h3>
 
-	<div class="vid-box">
-    	<video id="localVideo" autoplay></video>
+		<div class="row">
+			<div class="col-md-6 testvid">
+				<div class="row">
+				    {% for invite in invites %}
+					    {% if invite%4 !== 0 %}
+							<div class="col-xs-8 col-sm-6 testinner"><div id="guest-vid{{invite}}">{{invite}}</div></div>
+					    {% endif %}
+				    {% endfor %}
+					<div class="col-xs-8 col-sm-6 testinner"><video id="localVideoHost" autoplay></video></div>
+				</div>
+			</div>
+			<div class="col-md-6">
+				
+			</div>
+		</div>
     </div>
 
 {% endblock %}

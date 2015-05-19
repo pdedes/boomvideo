@@ -16,14 +16,14 @@ video {
 .testvid {
   left: 0;
   top: 0;
-  background-color: #eee;
+  background-color: #7bdef5;
 }
 
 .testinner {
   height: 100%;
   width: 100%;
   padding: 0;
-  background-color: #999;
+  background-color: #7bdef5;
 }
 
 /*vid-box {
