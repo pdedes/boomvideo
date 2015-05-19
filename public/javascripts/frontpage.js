@@ -106,11 +106,12 @@ var roomSize = function () {
 function iceBootUp (roomName) {
 
     var comm = getIcecommInstance();
+    var guests;
 
     comm.connect(roomName, {audio: false});
 
     comm.on('connected', function(peer) {
-      $("#video-section").append(peer.getVideo());
+      $("#guest-vid").replaceWith(peer.getVideo());
     });
 
     comm.on('local', function(peer) {
