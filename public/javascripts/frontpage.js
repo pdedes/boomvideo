@@ -8,6 +8,9 @@ $( document ).ready(function () {
       var guestRoomNumber = location.pathname.match(/\d+/)[0];
       socket.emit('join room', { room: guestRoomNumber });
       iceBootUp(guestRoomNumber);
+      socket.on('welcome editor', function(data) {
+        editor.setValue(data.currentText);
+      });
       $(' #editor ').attr('style', 'visibility: visible;');
   }
 
@@ -33,7 +36,6 @@ $( document ).ready(function () {
   // browser will initiate an editor patch only when change is initiated locally.
   // using the ace editor 'on.change' function creates an infinite loop.
   $(' #editor ').keyup(function() {
-    console.log('editor received key change.');
     var updatedText = editor.getValue();
 
     socket.emit('text backend', {
@@ -42,17 +44,10 @@ $( document ).ready(function () {
   });
 
   socket.on('text update', function(data) {
-    console.log('broadcast received in: ', data);
     var oldText = editor.getValue();
     var newText = data.updatedText;
 
-    console.log("client old Text: ", oldText);
-    console.log("client new Text: ", newText);
-
     var updates = performDiffPatch(oldText, newText);
-    console.log("client patched text: ", newText);
-
-    // editor.setValue(updates);
   });
 
 });
@@ -74,13 +69,6 @@ function performDiffPatch(text1, text2) {
   var patchesMade = dmp.patch_make(text1, diffsCreated);    /*  —> patches        */
   var patchesApplied = dmp.patch_apply(patchesMade, text1); /*  —> [Array]        */
 
-  console.log("Diffs:   ", diffsCreated);
-  console.log("Patches: ", patchesMade);
-  console.log("Applied: ", patchesApplied);
-
-  console.log("Text1:   ", text1);
-  console.log("Text2:   ", text2);
-
   editor.setValue(patchesApplied[0], 1);
 }
 
@@ -99,11 +87,7 @@ var iceConnect = function(roomName) {
 
 //Instantiate a comm object from Icecomm
 function getIcecommInstance(){
-  // var comm = null;
-
-  // if(!comm){
   var comm = new Icecomm('UQnIHb5NSBcbmpYjxOOUWgK66Z9OVohKadkBZy5n8ALDLcBGKi', {debug: true});
-  // }
   return comm;
 }
 

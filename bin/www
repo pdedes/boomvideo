@@ -35,14 +35,16 @@ server.on('listening', onListening);
 /**
  * Configure socket.io
  */
+var currentText = {};
 
 io.attach(server);
 io.on('connection', function (socket) {
   socket.emit('news', { hello: 'world' });
+  socket.emit('welcome editor', { currentText: currentText.updatedText });
   socket.on('text backend', function (data) {
     console.log('editor updates on server received: ', data);
     socket.broadcast.emit('text update', data);
-    // socket.to('others').emit('text update', data);
+    currentText = data;
   });
   socket.on('my other event', function (data) {
     console.log(data);
