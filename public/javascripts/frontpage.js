@@ -30,6 +30,8 @@ $( document ).ready(function () {
 
   });
 
+  // browser will initiate an editor patch only when change is initiated locally.
+  // using the ace editor 'on.change' function creates an infinite loop.
   $(' #editor ').keyup(function() {
     console.log('editor received key change.');
     var updatedText = editor.getValue();
@@ -38,22 +40,6 @@ $( document ).ready(function () {
       updatedText: updatedText
     });
   });
-
-  // editor.getSession().on('change', function(e) {
-  //   if (e.type) {
-  //     console.log("editor change error: ", e.type);
-  //   } else {
-  //     // var oldText = "Hi my full name be Originally Pedro.";
-  //     // var newText = "Hi my real full name is Actually Peter.";
-
-  //     var updatedText = editor.getValue();
-
-  //     socket.emit('text backend', {
-  //       updatedText: updatedText
-  //     });
-  //   }
-
-  // });
 
   socket.on('text update', function(data) {
     console.log('broadcast received in: ', data);
@@ -95,7 +81,7 @@ function performDiffPatch(text1, text2) {
   console.log("Text1:   ", text1);
   console.log("Text2:   ", text2);
 
-  editor.setValue(patchesApplied[0]);
+  editor.setValue(patchesApplied[0], 1);
 }
 
 
