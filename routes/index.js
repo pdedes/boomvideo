@@ -52,42 +52,42 @@ module.exports = function(io) {
 
 		var smsPromises = [];
 
-		// phonesNumbers.forEach(function(number, index) {
-		// 	smsPromises[index] = client.sms.messages.create({ 
-		// 		to: number,
-		// 		from: "+18622518420", 
-		// 		body: body
-		// 	});
-		// });
+		phonesNumbers.forEach(function(number, index) {
+			smsPromises[index] = client.sms.messages.create({ 
+				to: number,
+				from: "+18622518420", 
+				body: body
+			});
+		});
 
-		// console.log("Here are the Promises: ", smsPromises[0]);
+		console.log("Here are the Promises: ", smsPromises[0]);
 
-		// q.all(smsPromises)
-		// 	.then(function(results) {
-		// 		// console.log("smsPromises Results: ", results);
-		// 		results.forEach(function(result) {
-		// 			console.log("Twilio Sent: ", result.sid); 
-		// 		});
-		// 		res.sendStatus(200).end();
-		// 	}).then(null, function(err) {
-		// 		console.log("Twilio error: ", err);
-		// 	});
+		q.all(smsPromises)
+			.then(function(results) {
+				// console.log("smsPromises Results: ", results);
+				results.forEach(function(result) {
+					console.log("Twilio Sent: ", result.sid); 
+				});
+				res.sendStatus(200).end();
+			}).then(null, function(err) {
+				console.log("Twilio error: ", err);
+			});
 
 		// For Testing Purposes
-		res.sendStatus(200).end();
+		// res.sendStatus(200).end();
 
-		// smsPromise.then(function(message) { 
-		// 	// if(!err) {
-		// 		console.log("Twilio Sent: ", message.sid); 
-		// 		console.log("message: ", message);
-		// 		res.sendStatus(200).end();
-		// 	// } else {
+		smsPromise.then(function(message) { 
+			// if(!err) {
+				console.log("Twilio Sent: ", message.sid); 
+				console.log("message: ", message);
+				res.sendStatus(200).end();
+			// } else {
 				
-		// 	// }
-		// }).catch(function(err) {
-		// 	console.log("Twilio error: ", err);
-		// 	res.sendStatus(500).end();
-		// });
+			// }
+		}).catch(function(err) {
+			console.log("Twilio error: ", err);
+			res.sendStatus(500).end();
+		});
 
 	});
 
@@ -122,12 +122,12 @@ module.exports = function(io) {
 
 		// console.log(message);
 
-		// mandrill_client.messages.send({ "message": message }, function(result) {
-		//     console.log(result);
-		// }, function(e) {
-		//     // Mandrill returns the error as an object with name and message keys
-		//     console.log('A mandrill error occurred: ' + e.name + ' - ' + e.message);
-		// });
+		mandrill_client.messages.send({ "message": message }, function(result) {
+		    console.log(result);
+		}, function(e) {
+		    // Mandrill returns the error as an object with name and message keys
+		    console.log('A mandrill error occurred: ' + e.name + ' - ' + e.message);
+		});
 
 		res.json(message);
 	});
