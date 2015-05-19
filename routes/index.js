@@ -34,7 +34,7 @@ module.exports = function(io) {
 	/* GET home page. */
 	router.get('/*', function(req, res, next) {	
 	  console.log('/* route');
-	  res.render('index', { title: 'BoomVideo', invites: [1, 2, 3, 4] });
+	  res.render('index', { title: 'BoomVideo', invites: [1, 2, 3] });
 	});
 
 	////////////////////////

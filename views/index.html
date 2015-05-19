@@ -10,15 +10,15 @@
 				    {% for invite in invites %}
 				      <div class="form-group">
 				        <label for="inputName">Name</label>
-				        <input type="text" class="form-control" name="invitee{{ invite }}[name]" id="inputName{{invite}}" value="Name...">
+				        <input type="text" class="form-control" name="invitee{{ invite }}[name]" id="inputName{{invite}}" placeholder="Name...">
 				      </div>
 				      <div class="form-group">
 				        <label for="inputEmail">Email</label>
-				        <input type="email" class="form-control" name="invitee{{ invite }}[email]" id="inputEmail{{invite}}" value="dedes1821@gmail.com">
+				        <input type="email" class="form-control" name="invitee{{ invite }}[email]" id="inputEmail{{invite}}" placeholder="dedes1821@gmail.com">
 				      </div>
 				      <div class="form-group">
 				        <label for="inputPhone">Phone Number</label>
-				        <input type="phone" class="form-control" name="invitee{{ invite }}[phone]" id="inputPhone{{invite}}" value="+12016931006">
+				        <input type="phone" class="form-control" name="invitee{{ invite }}[phone]" id="inputPhone{{invite}}" placeholder="+12016931006">
 				      </div>
 				    {% endfor %}
 				    <br><br>
