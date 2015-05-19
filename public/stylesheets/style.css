@@ -9,8 +9,8 @@ a {
 }
 
 video {
-    height: 250px;
-    width: 320px;
+    height: 150px;
+    width: 225px;
 }
 
 .testvid {
@@ -30,33 +30,12 @@ video {
 	width: 100%;
 }*/
 
-/*#localVideoHost {
+#localVideoHost {
   position: absolute;
   right: 50px;
   bottom: 50px;
-  width: 350px;
+  width: 275px;
   z-index: 1000;
-}*/
-#localVideo1 {
-  position: absolute;
-  left: 50px;
-  z-index: -100;
-  top: 50px;
-  width: 350px;
-}
-#localVideo2 {
-  position: absolute;
-  left: 50px;
-  z-index: -100;
-  bottom: 50px;
-  width: 350px;
-}
-#localVideo3 {
-  position: absolute;
-  right: 50px;
-  z-index: -100;
-  top: 50px;
-  width: 350px;
 }
 
 #editor { 
@@ -72,24 +51,6 @@ video {
   right: 50%;
 }
 
-/*video[src^="blob"] {
-  position: fixed; 
-  right: 0; 
-  bottom: 0;
-  min-width: 50%; min-height: 50%;
-  width: 200px; 
-  height: 200px; 
-  z-index: -100;
-  background-size: cover;
-}*/
-/* 
-video:nth-of-type(2) {
-  position: fixed; 
-  right: 0; 
-  bottom: 0;
-  min-width: 50%; min-height: 50%;
-  width: 200px; 
-  height: 200px; 
-  z-index: -100;
-  background-size: cover;
-}*/
+
+
+

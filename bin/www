@@ -36,13 +36,15 @@ server.on('listening', onListening);
  * Configure socket.io
  */
 var currentText = {};
+var editorPristine = true;
 
 io.attach(server);
 io.on('connection', function (socket) {
   socket.emit('news', { hello: 'world' });
-  socket.emit('welcome editor', { currentText: currentText.updatedText });
+  socket.emit('welcome editor', { currentText: currentText.updatedText, editorPristine: editorPristine });
   socket.on('text backend', function (data) {
     console.log('editor updates on server received: ', data);
+    editorPristine = false;
     socket.broadcast.emit('text update', data);
     currentText = data;
   });

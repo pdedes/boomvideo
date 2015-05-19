@@ -9,8 +9,17 @@ $( document ).ready(function () {
       socket.emit('join room', { room: guestRoomNumber });
       iceBootUp(guestRoomNumber);
       socket.on('welcome editor', function(data) {
-        editor.setValue(data.currentText);
+        console.log('welcome socket ping hit');
+        console.log('welcome editor data: ', data.currentText);
+
+        if(data.editorPristine) {
+          defaultText = '// Work on code together with your guests\n\nfunction boom (dynamite) {\n    var x = "boom goes the " + dynamite;\n    return x;\n}';
+          editor.setValue(defaultText, 1);
+        } else {
+          editor.setValue(data.currentText, 1);
+        }
       });
+
       $(' #editor ').attr('style', 'visibility: visible;');
   }
 
@@ -111,7 +120,9 @@ function iceBootUp (roomName) {
     comm.connect(roomName, {audio: false});
 
     comm.on('connected', function(peer) {
-      $("#guest-vid").replaceWith(peer.getVideo());
+      var guestPosition = Number(comm.getRoomSize()) - 1;
+      var guestTag = "#guest-vid" + guestPosition;
+      $(guestTag).replaceWith(peer.getVideo());
     });
 
     comm.on('local', function(peer) {
